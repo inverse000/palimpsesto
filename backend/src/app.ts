@@ -1,6 +1,8 @@
 import express from 'express'
 import cors from 'cors'
 import proyectosRoutes from './modules/proyectos/proyectos.routes'
+import { funcionalidadesRouter, funcionalidadesAnidadoRouter } from './modules/funcionalidades/funcionalidades.routes'
+import { ritualesRouter, ritualesAnidadoRouter } from './modules/rituales/rituales.routes'
 import dashboardRoutes from './modules/dashboard/dashboard.routes'
 import { errorHandler, notFound } from './shared/error.handler'
 
@@ -22,11 +24,13 @@ app.get('/health', (_req, res) => {
 
 // ─── Rutas ────────────────────────────────────────────────────────────────────
 app.use('/api/proyectos', proyectosRoutes)
+app.use('/api/proyectos/:proyectoId/funcionalidades', funcionalidadesAnidadoRouter)
+app.use('/api/proyectos/:proyectoId/rituales', ritualesAnidadoRouter)
+app.use('/api/funcionalidades', funcionalidadesRouter)
+app.use('/api/rituales', ritualesRouter)
 app.use('/api/dashboard', dashboardRoutes)
 
-// Rutas pendientes de implementación (Iteraciones 2-5)
-// app.use('/api/funcionalidades', funcionalidadesRoutes)
-// app.use('/api/rituales', ritualesRoutes)
+// Rutas pendientes de implementación (Iteraciones 3-5)
 // app.use('/api/conceptos', conceptosRoutes)
 // app.use('/api/revisiones', revisionesRoutes)
 // app.use('/api/evidencias', evidenciasRoutes)
