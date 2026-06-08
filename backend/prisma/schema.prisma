@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+// SQLite no soporta enums nativos, Prisma los mapea como String con validación en capa service
+
+// ─── Models ───────────────────────────────────────────────────────────────────
+
+model Proyecto {
+  id                String    @id @default(cuid())
+  nombre            String
+  descripcion       String?
+  estado            String    @default("Activo")
+  fechaCreacion     DateTime  @default(now())
+  fechaInicio       DateTime?
+  fechaFinalizacion DateTime?
+
+  funcionalidades Funcionalidad[]
+  rituales        Ritual[]
+  revisiones      Revision[]
+  evidencias      Evidencia[]
+
+  @@map("proyectos")
+}
+
+model Funcionalidad {
+  id              String    @id @default(cuid())
+  proyectoId      String
+  nombre          String
+  descripcion     String?
+  estado          String    @default("Pendiente")
+  fechaCreacion   DateTime  @default(now())
+  fechaCompletado DateTime?
+
+  proyecto   Proyecto    @relation(fields: [proyectoId], references: [id], onDelete: Cascade)
+  rituales   Ritual[]
+  evidencias Evidencia[]
+
+  @@map("funcionalidades")
+}
+
+model Ritual {
+  id              String    @id @default(cuid())
+  proyectoId      String
+  funcionalidadId String?
+  tipo            String
+  contenido       String    @default("{}")
+  completado      Boolean   @default(false)
+  fechaCreacion   DateTime  @default(now())
+  fechaCompletado DateTime?
+
+  proyecto      Proyecto       @relation(fields: [proyectoId], references: [id], onDelete: Cascade)
+  funcionalidad Funcionalidad? @relation(fields: [funcionalidadId], references: [id], onDelete: SetNull)
+
+  @@map("rituales")
+}
+
+model Concepto {
+  id                  String    @id @default(cuid())
+  nombre              String    @unique
+  definicionInicial   String
+  definicionActual    String
+  analogia            String?
+  nivelDominio        String    @default("Exposicion")
+  fechaUltimaRevision DateTime?
+  fechaCreacion       DateTime  @default(now())
+
+  @@map("conceptos")
+}
+
+model Revision {
+  id              String    @id @default(cuid())
+  proyectoId      String
+  intervalo       Int
+  fechaProgramada DateTime
+  fechaRealizada  DateTime?
+  estado          String    @default("Pendiente")
+  contenido       String?
+
+  proyecto Proyecto @relation(fields: [proyectoId], references: [id], onDelete: Cascade)
+
+  @@map("revisiones")
+}
+
+model Evidencia {
+  id              String    @id @default(cuid())
+  proyectoId      String
+  funcionalidadId String?
+  tipo            String
+  contenido       String
+  metadatos       String?
+  fecha           DateTime  @default(now())
+
+  proyecto      Proyecto       @relation(fields: [proyectoId], references: [id], onDelete: Cascade)
+  funcionalidad Funcionalidad? @relation(fields: [funcionalidadId], references: [id], onDelete: SetNull)
+
+  @@map("evidencias")
+}
