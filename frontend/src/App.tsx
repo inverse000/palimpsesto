@@ -4,6 +4,10 @@ import DashboardPage from '@/modules/dashboard/DashboardPage'
 import ProyectosPage from '@/modules/proyectos/ProyectosPage'
 import ProyectoDetalle from '@/modules/proyectos/ProyectoDetalle'
 import RitualDetalle from '@/modules/rituales/RitualDetalle'
+import ConceptosPage from '@/modules/conceptos/ConceptosPage'
+import ConceptoDetalle from '@/modules/conceptos/ConceptoDetalle'
+import RevisionesPage from '@/modules/revisiones/RevisionesPage'
+import RevisionDetalle from '@/modules/revisiones/RevisionDetalle'
 
 export default function App() {
   return (
@@ -15,9 +19,10 @@ export default function App() {
           <Route path="/proyectos" element={<ProyectosPage />} />
           <Route path="/proyectos/:id" element={<ProyectoDetalle />} />
           <Route path="/rituales/:id" element={<RitualDetalle />} />
-          {/* Iteraciones 3-5 */}
-          {/* <Route path="/conceptos" element={<ConceptosPage />} /> */}
-          {/* <Route path="/revisiones" element={<RevisionesPage />} /> */}
+          <Route path="/conceptos" element={<ConceptosPage />} />
+          <Route path="/conceptos/:id" element={<ConceptoDetalle />} />
+          <Route path="/revisiones" element={<RevisionesPage />} />
+          <Route path="/revisiones/:id" element={<RevisionDetalle />} />
         </Route>
       </Routes>
     </BrowserRouter>

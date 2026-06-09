@@ -1,18 +1,10 @@
 import { NavLink } from 'react-router-dom'
 
-interface NavItem {
-  path: string
-  label: string
-  icon: string
-  enabled: boolean
-  version?: string
-}
-
-const navItems: NavItem[] = [
+const navItems = [
   { path: '/dashboard',  label: 'Archivo',    icon: '⊞', enabled: true },
   { path: '/proyectos',  label: 'Proyectos',  icon: '◫', enabled: true },
-  { path: '/conceptos',  label: 'Conceptos',  icon: '◉', enabled: false, version: 'iter. 3' },
-  { path: '/revisiones', label: 'Revisiones', icon: '◷', enabled: false, version: 'iter. 3' },
+  { path: '/conceptos',  label: 'Conceptos',  icon: '◉', enabled: true },
+  { path: '/revisiones', label: 'Revisiones', icon: '◷', enabled: true },
 ]
 
 export default function Sidebar() {
@@ -24,39 +16,27 @@ export default function Sidebar() {
       </div>
 
       <nav className="flex-1 px-3 py-4 flex flex-col gap-0.5 overflow-y-auto">
-        {navItems.map((item) =>
-          item.enabled ? (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className={({ isActive }) =>
-                [
-                  'flex items-center gap-3 px-3 py-2 rounded text-sm font-serif transition-all duration-150',
-                  isActive
-                    ? 'bg-bronze-900/30 text-bronze-400 border border-bronze-800/40'
-                    : 'text-ivory-500 hover:text-ivory-200 hover:bg-carbon-700 border border-transparent',
-                ].join(' ')
-              }
-            >
-              <span className="text-base opacity-70">{item.icon}</span>
-              {item.label}
-            </NavLink>
-          ) : (
-            <div
-              key={item.path}
-              className="flex items-center gap-3 px-3 py-2 rounded text-sm font-serif text-carbon-500 cursor-not-allowed border border-transparent"
-              title={`Disponible en ${item.version}`}
-            >
-              <span className="text-base opacity-40">{item.icon}</span>
-              {item.label}
-              <span className="ml-auto text-xs font-mono text-carbon-600">{item.version}</span>
-            </div>
-          )
-        )}
+        {navItems.map((item) => (
+          <NavLink
+            key={item.path}
+            to={item.path}
+            className={({ isActive }) =>
+              [
+                'flex items-center gap-3 px-3 py-2 rounded text-sm font-serif transition-all duration-150',
+                isActive
+                  ? 'bg-bronze-900/30 text-bronze-400 border border-bronze-800/40'
+                  : 'text-ivory-500 hover:text-ivory-200 hover:bg-carbon-700 border border-transparent',
+              ].join(' ')
+            }
+          >
+            <span className="text-base opacity-70">{item.icon}</span>
+            {item.label}
+          </NavLink>
+        ))}
       </nav>
 
       <div className="px-5 py-4 border-t border-carbon-700">
-        <p className="text-xs text-carbon-500 font-mono">V1 · Iteración 2</p>
+        <p className="text-xs text-carbon-500 font-mono">V1 · Iteración 3</p>
       </div>
     </aside>
   )
